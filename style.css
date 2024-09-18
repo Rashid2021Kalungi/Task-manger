@@ -181,6 +181,19 @@ input[type='date']{
     margin-top: 10px;
     width: 90%;
 }
+table{
+    width: 100%;
+    height: max-content;
+    border: 1px solid black;
+}
+tr{
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+
 @media(max-width: 768px){
     .header{
         display: flex;

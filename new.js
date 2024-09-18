@@ -102,135 +102,119 @@ function newField() {
             
             nextBtn1.remove();
             nextBtn2.onclick = save;
-
-            function save() {
-                const btn = document.getElementById('new');
-                btn.style.display = 'block';
-            
-                nextBtn2.remove();
-                newField1.remove();
-                startDate.remove();
-                deadLine.remove();
-            
-                // Retrieve existing tasks from localStorage
-                let tasks = JSON.parse(localStorage.getItem('tasks'));
-            
-                // If tasks is not an array, reinitialize it as an empty array
-                if (!Array.isArray(tasks)) {
-                    console.warn('Tasks stored in localStorage is not an array. Resetting to an empty array.');
-                    tasks = [];
-                }
-            
-                // Create a new task object
-                let task = {
-                    newField1: newField1.value,
-                    startDate: startDate.value,
-                    deadLine: deadLine.value
-                };
-            
-                // Add the new task to the tasks array
-                tasks.push(task);
-            
-                // Store the updated tasks array in localStorage
-                localStorage.setItem('tasks', JSON.stringify(tasks));
-            
-                // Create task container and append task data
-                let storageDiv = document.querySelector('.storage');
-                if (!storageDiv) {
-                    storageDiv = document.createElement('div');
-                    storageDiv.className = 'storage';
-                    document.body.appendChild(storageDiv);
-                    localStorage.setItem('storageDiv', 'true');
-                }
-            
-                const taskContainer = document.createElement('div');
-                taskContainer.className = 'taskcontainer';
-                const table=document.createElement('table');
-                table.style.border='1px';
-                // table.textContent = `<tr><td> ${task.newField1}</td>, <td> ${task.startDate}</td>, <td> ${task.deadLine}</td></tr>`;
-                //create table arrays
-                task.forEach(rowData=>{
-                    const row=document.createElement('tr');
-                    // create row data
-                    rowData.forEach(cellData=>{
-                        const cell=document.createElement('td');
-                        cell.textContent(cellData);
-                        row.appendChild(cell);
-                    });
-                    table.appendChild(row);
-                });
-                taskContainer.appendChild(table);
-                storageDiv.appendChild(taskContainer);
-            }            
         }
     }
 }
-function restoreDiv() {
+function save() {
+    const btn = document.getElementById('new');
+    btn.style.display = 'block';
+
+    nextBtn2.remove();
+    newField1.remove();
+    startDate.remove();
+    deadLine.remove();
+
+    // Retrieve existing tasks from localStorage
+    let tasks = JSON.parse(localStorage.getItem('tasks'));
+
+    // If tasks is not an array, reinitialize it as an empty array
+    if (!Array.isArray(tasks)) {
+        console.warn('Tasks stored in localStorage is not an array. Resetting to an empty array.');
+        tasks = [];
+    }
+
+    // Create a new task object
+    let task = {
+        newField1: newField1.value,
+        startDate: startDate.value,
+        deadLine: deadLine.value
+    };
+
+    // Add the new task to the tasks array
+    tasks.push(task);
+
+    // Store the updated tasks array in localStorage
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+
+    // Create task container and append task data to a table
     let storageDiv = document.querySelector('.storage');
-    const table=document.createElement('table');
-    table.style.border='1px';
     if (!storageDiv) {
         storageDiv = document.createElement('div');
         storageDiv.className = 'storage';
         document.body.appendChild(storageDiv);
     }
-    let tasks = localStorage.getItem('tasks');
-    if (tasks) {
-        try {
-            tasks = JSON.parse(tasks);
-            if (!Array.isArray(tasks)) {
-                throw new Error("Tasks data is not an array");
-            }
-        } catch (error) {
-            console.error('Tasks retrieved from localStorage is not an array. Resetting tasks.');
-            tasks = []; 
-            localStorage.setItem('tasks', JSON.stringify(tasks)); 
-        }
-    } else {
-        tasks = [];
-    }
-    // Loop through the tasks array and display each task
-    // tasks.forEach(task => {
-    //     const taskContainer = document.createElement('div');
-    //     taskContainer.className = 'taskcontainer';
-    //     console.log(task);
-        
-    //     // taskContainer.textContent = `Task: ${task.newField1}, Start Date: ${task.startDate}, Deadline: ${task.deadLine}`;
-    //     // task.forEach(rowData=>{
-    //     //     const row=document.createElement('tr');
-    //     //     table.appendChild(row);
-    //     //     // create row data
-    //     //     rowData.forEach(cellData=>{
-    //     //         const cell=document.createElement('td');
-    //     //         cell.textContent(cellData);
-    //     //         row.appendChild(cell);
-    //     //     });
-    //     //     table.appendChild(row);
-    //     // });
-    //     // taskContainer.appendChild(table);
-    //     storageDiv.appendChild(taskContainer);
-    // });
-    tasks.forEach(rowData=>{
-        // console.log(rowData);
+    
         const taskContainer = document.createElement('div');
         taskContainer.className = 'taskcontainer';
-            const row=document.createElement('tr');
+    
+        const table = document.createElement('table');
+        const row = document.createElement('tr');
+    
+        // Create table cells for each task property
+        const taskNameCell = document.createElement('td');
+        taskNameCell.textContent = task.newField1;
+        row.appendChild(taskNameCell);
+    
+        const startDateCell = document.createElement('td');
+        startDateCell.textContent = task.startDate;
+        row.appendChild(startDateCell);
+    
+        const deadLineCell = document.createElement('td');
+        deadLineCell.textContent = task.deadLine;
+        row.appendChild(deadLineCell);
+    
+        table.appendChild(row);
+        taskContainer.appendChild(table);
+        storageDiv.appendChild(taskContainer);
+    }
+    
+    function restoreDiv() {
+        let storageDiv = document.querySelector('.storage');
+        if (!storageDiv) {
+            storageDiv = document.createElement('div');
+            storageDiv.className = 'storage';
+            document.body.appendChild(storageDiv);
+        }
+    
+        let tasks = localStorage.getItem('tasks');
+        if (tasks) {
+            try {
+                tasks = JSON.parse(tasks);
+                if (!Array.isArray(tasks)) {
+                    throw new Error("Tasks data is not an array");
+                }
+            } catch (error) {
+                console.error('Tasks retrieved from localStorage is not an array. Resetting tasks.');
+                tasks = []; 
+                localStorage.setItem('tasks', JSON.stringify(tasks)); 
+            }
+        } else {
+            tasks = [];
+        }
+    
+        // Loop through the tasks array and display each task in a table
+        tasks.forEach(task => {
+            const table = document.createElement('table');
+            const row = document.createElement('tr');
+    
+            // Create table cells for each task property
+            const taskNameCell = document.createElement('td');
+            taskNameCell.textContent = task.newField1;
+            row.appendChild(taskNameCell);
+    
+            const startDateCell = document.createElement('td');
+            startDateCell.textContent = task.startDate;
+            row.appendChild(startDateCell);
+    
+            const deadLineCell = document.createElement('td');
+            deadLineCell.textContent = task.deadLine;
+            row.appendChild(deadLineCell);
+    
             table.appendChild(row);
-            // create row data
-            // rowData.forEach(cellData=>{
-                const cell=document.createElement('td');
-                rowData=[];
-                // console.log(rowData);
-                rowData.forEach(cellData =>{
-                    cell.textContent=(`${rowData.newField1},${rowData.startDate},${rowData.deadLine}`);
-                })
-                row.appendChild(cell);
-            // });
-            table.appendChild(row);
-            taskContainer.appendChild(table);
-            storageDiv.appendChild(taskContainer);
+            storageDiv.appendChild(table);
         });
-}
+    }
+            
 
 
 // Button handling
@@ -243,6 +227,3 @@ btn.addEventListener('click', function() {
         btn.style.display = 'none';
     }
 });
-
-
-        // taskContainer.textContent = `Task: ${task.newField1}, Start Date: ${task.startDate}, Deadline: ${task.deadLine}`;
