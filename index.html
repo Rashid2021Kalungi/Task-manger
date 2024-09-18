@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/78565ebf1f.js" crossorigin="anonymous"></script>
+    
+</head>
+<body>
+    <div class="main h-full w-full flex flex-col">
+        <section class="header">
+           <h2>Task Manager</h2>
+           <div class="date flex">
+                <h3>Date:</h3>
+                <h3 id="displayDate"></h3>
+                <div class="dropdown">
+                    <p class="btn fa-solid fa-angle-down" onclick="toggleDropdown()"></p>
+                    <input type="date" name="date" id="date" class="date">
+                </div>
+                <div class="hoverContainer">
+                    <button id="new" class="fa-solid fa-plus" onclick="newField()"></button>
+                    <div class="hover-text">Add new task</div>
+                </div>
+           </div>
+        </section>
+        <section class="body">
+            <div class="inputfield"></div>
+        </section>
+        <section class="footer"></section>
+    </div>
+    <script src="new.js"></script>
+</body>
+</html>
